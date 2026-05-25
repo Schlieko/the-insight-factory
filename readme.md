@@ -1,4 +1,4 @@
-# 🧠 Hyper-Creative Idea Pipeline
+# 🧠 Creative Idea Pipeline
 
 An autonomous, multi-agent AI pipeline that takes a raw, fuzzy idea and mathematically expands it into a comprehensive deep research report and a conversational podcast script.
 
