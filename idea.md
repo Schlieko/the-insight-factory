@@ -9,6 +9,6 @@
 > 
 > The AI doesn't care about perfect formatting, spelling, or length. It just needs the core concept. 
 > 
-> **Instructions:** Delete everything above this line, paste your raw idea here, save the file, and run the pipeline!
-
-[Paste your raw idea right here...]
+> ***
+> 
+> **🛑 INSTRUCTIONS:** > **Select ALL the text in this document, delete it, and type your idea. This file should ONLY contain your raw idea when you run the scripts!**
