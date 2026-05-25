@@ -1,0 +1,56 @@
+name: 🧠 Run The Insight Factory
+
+on:
+  workflow_dispatch:
+    inputs:
+      core_idea:
+        description: 'Paste your raw idea here (multiple paragraphs are fine):'
+        required: true
+        type: string
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    
+    # This securely pulls your API key from the GitHub Secrets
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Inject Idea into idea.md
+        # We use a quick inline Python command here so multi-line text and weird characters don't break the system
+        env:
+          CORE_IDEA: ${{ inputs.core_idea }}
+        run: |
+          python -c 'import os; open("idea.md", "w", encoding="utf-8").write(os.environ.get("CORE_IDEA", ""))'
+
+      - name: Run Master Pipeline
+        run: python 00.0_master_pipeline.py
+
+      - name: Package and Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Insight-Factory-Outputs
+          path: |
+            *.docx
+            *.wav
+            *.mp3
+            *prompt*.txt
+            master_output.md
+            audit_report.md
+            Generated_Podcast_Script.txt
+            NotebookLM_Custom_Instructions.txt
+          retention-days: 5 # Automatically deletes the ZIP file from GitHub servers after 5 days
